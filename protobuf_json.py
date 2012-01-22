@@ -38,6 +38,8 @@ TYPE_MAP = {
     protofd.TYPE_FLOAT: float,
     protofd.TYPE_INT32: int,
     protofd.TYPE_INT64: int,
+    protofd.TYPE_UINT32: int,
+    protofd.TYPE_UINT64: int,
     protofd.TYPE_STRING: unicode,
     protofd.TYPE_ENUM: int,
     }
@@ -120,7 +122,7 @@ def json2proto(json_str, message_class):
     # (http://code.google.com/p/protobuf/issues/detail?id=312)
     elif field.has_default_value:
       setattr(proto_obj, field.name, field.default_value)
-    else:
+    elif field.label == field.LABEL_REQUIRED:
       raise JsonDataMissingError(
           'Field %s is not set in json data' % field.name)
 
@@ -153,7 +155,7 @@ def _convert_proto_value(field, value, message_obj):
   elif field.type in TYPE_MAP:
     return value
   elif field.type == protofd.TYPE_MESSAGE:
-    return _proto2json_data(value)
+    return proto2json_dict(value)
   else:
     raise UnsupportedFieldTypeError(
       'ProtoType %i not supported yet' % field.type)
@@ -177,10 +179,10 @@ def proto2json(message_instance):
     ProtoEnumValueNotFoundError: if the enum does not have the value
     UnsupportedFieldTypeError: If the proto field type is not supported
   """
-  return simplejson.dumps(_proto2json_data(message_instance))
+  return simplejson.dumps(proto2json_dict(message_instance))
 
 
-def _proto2json_data(message_instance):
+def proto2json_dict(message_instance):
   """Parse a proto message instance to a dict.
 
   During conversion, also default values are converted. This is so that we can rely on
