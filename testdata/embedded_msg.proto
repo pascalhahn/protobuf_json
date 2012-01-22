@@ -1,0 +1,7 @@
+message EmbeddedMessage {
+  required string test = 1 [default = 'test'];
+}
+
+message TestMessage {
+  required EmbeddedMessage testmessage = 1;
+}

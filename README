@@ -1,0 +1,3 @@
+Simple parser that convert back and forward between protobuf and json
+
+This is still a work in progress but in a working and tested state nevertheless

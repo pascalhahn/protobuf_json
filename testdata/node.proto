@@ -1,0 +1,12 @@
+message Node {
+  required string nodeid = 1;
+  enum State {
+    PLANNED = 0;
+    AVAILABLE = 1;
+    INCOMPLETE = 2;
+    RETIRED = 3;
+  }
+  required State state = 2 [default = PLANNED];
+}
+
+# vim: set tabstop=2 softtabstop=2 shiftwidth=2 textwidth=80 smarttab expandtab:
