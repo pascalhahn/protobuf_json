@@ -15,7 +15,7 @@ from testdata import embedded_msg_pb2
 
 class Json2ProtoTest(unittest.TestCase):
   def test_alldataset(self):
-    node_name = 'ber01vmmcbot001.dt.ber01.locn.s.nokia.com'
+    node_name = 'host1.berlin'
     node_state = 'AVAILABLE'
 
     node = protobuf_json.json2proto(
@@ -26,7 +26,7 @@ class Json2ProtoTest(unittest.TestCase):
     self.assertTrue(node.IsInitialized())
 
   def test_defaultdata(self):
-    node_name = 'ber01vmmcbot001.dt.ber01.locn.s.nokia.com'
+    node_name = 'host1.berlin'
 
     node = protobuf_json.json2proto(
         '{"nodeid": "%s"}' % node_name, node_pb2.Node)
@@ -44,7 +44,7 @@ class Json2ProtoTest(unittest.TestCase):
     self.assertEquals(msg.notes, ['testnote', 'testnotes'])
 
   def test_raisesProtoEnumValueNotFoundError(self):
-    node_name = 'ber01vmmcbot001.dt.ber01.locn.s.nokia.com'
+    node_name = 'host1.berlin'
     self.assertRaises(
       protobuf_json.ProtoEnumValueNotFoundError,
       protobuf_json.json2proto,
